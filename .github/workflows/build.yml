@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - master
+      - main
+      - claude/routing-files-repo-sr8nde
     paths:
       - "data/**"
       - "geoip/**"
