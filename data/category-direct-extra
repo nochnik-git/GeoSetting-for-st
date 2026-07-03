@@ -1,0 +1,79 @@
+# category-direct-extra — то, что из РФ РАБОТАЕТ напрямую и гнать через прокси
+# бессмысленно (тяжёлый трафик, зеркала, или прокси только замедлит/сломает).
+# Маршрутизируется В ДИРЕКТ.
+#
+# Ключевой момент: пакетные реестры и registry разработчика — сюда.
+# Качать пакеты/модели через прокси = боль и лишняя нагрузка на сервер.
+
+# ---- Пакетные реестры / registries ----
+include:npmjs                  # npm (upstream)
+domain:pypi.org                # Python
+domain:pythonhosted.org
+domain:files.pythonhosted.org
+domain:crates.io               # Rust
+domain:static.crates.io
+domain:rubygems.org            # Ruby
+domain:packagist.org           # PHP / Composer
+domain:repo.packagist.org
+domain:repo1.maven.org         # Maven Central
+domain:repo.maven.apache.org
+domain:pkg.go.dev              # Go
+domain:proxy.golang.org
+domain:sum.golang.org
+domain:nuget.org               # .NET
+domain:api.nuget.org
+domain:pub.dev                 # Dart / Flutter
+
+# ---- Git-хостинги / CI (работают напрямую) ----
+include:gitlab                 # GitLab (upstream)
+domain:sourceforge.net
+domain:sr.ht                   # SourceHut
+
+# ---- Хостинг / CDN / деплой (доступны из РФ) ----
+include:cloudflare             # Cloudflare (upstream)
+include:vercel                 # Vercel (upstream)
+include:netlify                # Netlify (upstream)
+domain:railway.app
+domain:render.com
+domain:fly.io
+domain:supabase.com
+domain:supabase.co
+
+# ---- Инструменты разработчика (доступны из РФ) ----
+include:jetbrains              # JetBrains IDE, toolbox (upstream)
+include:figma                  # Figma (upstream)
+domain:postman.com
+domain:insomnia.rest
+domain:dbeaver.io
+domain:code.visualstudio.com   # VS Code загрузки/marketplace
+domain:vscode-cdn.net
+domain:gallerycdn.vsassets.io
+
+# ---- ML-модели / датасеты (тяжёлый трафик — только директ) ----
+include:huggingface            # HuggingFace (upstream) — модели/датасеты
+include:deepseek               # DeepSeek (upstream) — доступен напрямую
+domain:kaggle.com
+domain:paperswithcode.com
+domain:wandb.ai
+domain:roboflow.com
+
+# ---- Дистрибутивы Linux / зеркала (гнать через прокси глупо) ----
+domain:archlinux.org
+domain:debian.org
+domain:ubuntu.com
+domain:canonical.com
+domain:fedoraproject.org
+domain:opensuse.org
+domain:almalinux.org
+domain:rockylinux.org
+domain:alpinelinux.org
+domain:kernel.org
+
+# ---- Справочники / знания (доступны из РФ) ----
+include:wikimedia              # Wikipedia и проекты Wikimedia (upstream)
+include:reddit                 # Reddit (upstream)
+domain:stackoverflow.com
+domain:stackexchange.com
+domain:archive.org
+domain:mozilla.org
+domain:developer.mozilla.org

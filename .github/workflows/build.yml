@@ -1,0 +1,123 @@
+name: Build geo files
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - "data/**"
+      - "geoip/**"
+      - ".github/workflows/build.yml"
+  schedule:
+    # Дважды в неделю (пн и чт, 04:00 UTC) — подтягиваем свежие
+    # реестр РКН, IP Discord и апстрим v2fly.
+    - cron: "0 4 * * 1,4"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-geo
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build geosite.dat + geoip.dat
+    runs-on: ubuntu-latest
+    env:
+      CURL: "curl -fsSL --retry 3 --retry-delay 2 --retry-connrefused"
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout v2fly domain-list-community (geosite builder)
+        uses: actions/checkout@v4
+        with:
+          repository: v2fly/domain-list-community
+          path: community
+          fetch-depth: 1
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: stable
+          cache: true
+          cache-dependency-path: community/go.sum
+
+      - name: Compute release tag
+        run: echo "TAG=$(date -u +%Y%m%d%H%M)" >> "$GITHUB_ENV"
+
+      # -------------------- geosite.dat --------------------
+      # Накладываем НАШИ списки ПОВЕРХ полного апстрима.
+      # community/data НЕ удаляем — иначе потеряем ~1500 категорий v2fly.
+      - name: Build geosite.dat
+        run: |
+          set -euo pipefail
+          cp -a ./data/. community/data/
+          mkdir -p /tmp/out
+          pushd community >/dev/null
+          go run ./ --outputdir=/tmp/out
+          popd >/dev/null
+          test -s /tmp/out/dlc.dat
+          cp -f /tmp/out/dlc.dat ./geosite.dat
+          echo "geosite.dat: $(stat -c%s ./geosite.dat) bytes"
+
+      # -------------------- geoip.dat --------------------
+      - name: Install Loyalsoldier/geoip generator
+        run: go install github.com/Loyalsoldier/geoip@latest
+
+      - name: Build geoip.dat
+        run: |
+          set -euo pipefail
+          rm -rf ./output
+          "$(go env GOPATH)/bin/geoip" convert -c ./geoip/config.json
+          test -s ./output/geoip.dat
+          cp -f ./output/geoip.dat ./geoip.dat
+          echo "geoip.dat: $(stat -c%s ./geoip.dat) bytes"
+
+      # -------------------- release --------------------
+      - name: Assemble release directory
+        run: |
+          set -euo pipefail
+          rm -rf release
+          mkdir -p release
+          cp -f ./geosite.dat release/
+          cp -f ./geoip.dat release/
+          ( cd release && sha256sum geosite.dat geoip.dat > checksums.sha256 )
+          echo "$TAG" > release/version.txt
+
+      - name: Push to release branch
+        run: |
+          set -euo pipefail
+          cd release
+          git init -q
+          git config --local user.name  "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -q -b release
+          git add -A
+          git commit -q -m "Release $TAG"
+          git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push -f -u origin release
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG }}
+          name: ${{ env.TAG }}
+          draft: false
+          prerelease: false
+          files: |
+            release/geosite.dat
+            release/geoip.dat
+            release/checksums.sha256
+
+      - name: Purge jsDelivr CDN cache
+        continue-on-error: true
+        run: |
+          set -eu
+          for f in geosite.dat geoip.dat checksums.sha256 version.txt; do
+            $CURL "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/$f" || true
+          done

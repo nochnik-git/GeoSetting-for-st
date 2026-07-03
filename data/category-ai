@@ -1,0 +1,90 @@
+# category-ai — AI / нейросети. Маршрутизируется ЧЕРЕЗ ПРОКСИ.
+# Почти все ниже геоблокируют РФ (403/регион) при прямом доступе.
+#
+# Списки, которые уже есть в апстриме v2fly, подключаются через include:
+# (так они автоматически обновляются вместе с апстримом).
+# Сервисы, которых в апстриме нет, прописаны доменами явно.
+
+# ---- LLM / чат-ассистенты (upstream) ----
+include:openai                 # ChatGPT, api.openai.com, sora
+include:anthropic              # Claude, claude.ai, api.anthropic.com
+include:google-gemini          # Gemini, AI Studio, aistudio.google.com
+include:google-deepmind        # DeepMind, NotebookLM, labs.google
+include:perplexity             # Perplexity AI
+include:poe                    # Poe (Quora)
+include:github-copilot         # GitHub Copilot (геоблочит РФ, поэтому в прокси)
+
+# ---- AI-редакторы кода (upstream) ----
+include:cursor                 # Cursor
+
+# ---- Голос / аудио (upstream) ----
+include:elevenlabs             # ElevenLabs
+
+# ---- xAI / Grok ----
+domain:x.ai
+domain:grok.com
+
+# ---- Anthropic доп. ----
+domain:anthropic.ai
+domain:claudeusercontent.com
+
+# ---- Генерация изображений / видео ----
+domain:midjourney.com
+domain:stability.ai
+domain:clipdrop.co
+domain:leonardo.ai
+domain:ideogram.ai
+domain:civitai.com
+domain:runwayml.com
+domain:pika.art
+domain:krea.ai
+domain:magnific.ai
+domain:recraft.ai
+domain:playground.com
+domain:lumalabs.ai
+domain:heygen.com
+domain:synthesia.io
+domain:d-id.com
+
+# ---- Аудио / музыка ----
+domain:suno.com
+domain:suno.ai
+domain:udio.com
+
+# ---- API-провайдеры / инференс ----
+domain:mistral.ai
+domain:openrouter.ai
+domain:replicate.com
+domain:replicate.delivery
+domain:together.ai
+domain:together.xyz
+domain:groq.com
+domain:fireworks.ai
+domain:cohere.com
+domain:cohere.ai
+domain:anyscale.com
+domain:modal.com
+domain:baseten.co
+domain:fal.ai
+domain:fal.run
+
+# ---- AI-редакторы / инструменты для разработки ----
+domain:codeium.com
+domain:windsurf.com
+domain:tabnine.com
+domain:phind.com
+domain:lovable.dev
+domain:bolt.new
+
+# ---- Прочие ассистенты / продукты ----
+domain:character.ai
+domain:characterai.io
+domain:jasper.ai
+domain:copy.ai
+domain:writesonic.com
+domain:gamma.app
+domain:tome.app
+domain:beautiful.ai
+domain:elicit.com
+domain:scholarai.io
+domain:consensus.app

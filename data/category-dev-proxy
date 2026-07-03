@@ -1,0 +1,56 @@
+# category-dev-proxy — инструменты разработки, которые РЕЖУТ российские IP
+# или недоступны напрямую. Маршрутизируется ЧЕРЕЗ ПРОКСИ.
+#
+# Здесь только то, что реально геоблокит РФ или отвалилось после ухода вендора.
+# Пакетные реестры (pypi/npm/crates/...) и то, что работает напрямую, —
+# в category-direct-extra, НЕ здесь.
+
+# ---- Контейнеры / облако / инфраструктура (upstream) ----
+include:docker                 # Docker Hub (auth.docker.io режет РФ)
+include:hashicorp              # HashiCorp: Terraform Registry, Vault, Consul
+include:oracle                 # Oracle (в т.ч. Java/OTN)
+include:mongodb                # MongoDB Atlas / cloud
+
+# ---- Железо / драйверы (upstream) ----
+include:nvidia                 # NVIDIA (драйверы, NGC, CUDA-репозитории)
+include:intel                  # Intel
+
+# ---- Дизайн / прочее ПО (upstream) ----
+include:unity                  # Unity (лицензии, Asset Store)
+include:adobe                  # Adobe (activation/CC — геоблок РФ)
+
+# ---- Atlassian / Bitbucket (upstream) ----
+include:atlassian             # Jira, Confluence, Bitbucket
+
+# ---- Terraform / HashiCorp доп. ----
+domain:terraform.io
+domain:releases.hashicorp.com
+
+# ---- Gradle (plugins.gradle.org режет РФ) ----
+domain:gradle.org
+domain:gradle.com
+
+# ---- Мониторинг / observability ----
+domain:grafana.com
+domain:grafana.net
+domain:elastic.co
+domain:elastic.com
+domain:datadoghq.com
+domain:newrelic.com
+domain:sentry.io
+
+# ---- CI / артефакты ----
+domain:circleci.com
+domain:jfrog.io
+domain:jfrog.com
+domain:travis-ci.com
+
+# ---- Прочие вендоры, ушедшие/режущие РФ ----
+domain:snyk.io
+domain:hashnode.com
+domain:vmware.com
+domain:redhat.com
+domain:ansible.com
+domain:puppet.com
+domain:chef.io
+domain:launchdarkly.com

@@ -1,0 +1,52 @@
+# category-ru-blocked — сервисы, ЗАБЛОКИРОВАННЫЕ или деградированные в РФ.
+# Маршрутизируется ЧЕРЕЗ ПРОКСИ.
+#
+# category-geoblock-ru (список hydraponique) отвечает за сайты, которые режут
+# функционал по IP. Здесь — полностью заблокированные РКН сервисы и соцсети.
+
+# ---- Соцсети / мессенджеры (upstream) ----
+include:instagram
+include:facebook
+include:meta
+include:twitter                # X / Twitter
+include:linkedin
+include:discord
+
+# ---- Продуктивность / контент, режущие или блокирующие РФ (upstream) ----
+include:notion
+include:canva
+include:patreon
+
+# ---- Приватность / почта ----
+domain:proton.me
+domain:protonmail.com
+domain:protonvpn.com
+domain:tutanota.com
+domain:tuta.com
+
+# ---- Медиа / стриминг, недоступные из РФ ----
+domain:spotify.com
+domain:scdn.co
+domain:netflix.com
+domain:nflxvideo.net
+domain:hbomax.com
+domain:max.com
+domain:hulu.com
+domain:disneyplus.com
+domain:soundcloud.com
+
+# ---- Соцсети / контент доп. ----
+domain:medium.com
+domain:substack.com
+domain:bsky.app                # Bluesky
+domain:mastodon.social
+domain:tumblr.com
+domain:quora.com
+
+# ---- Онлайн-сервисы, ушедшие из РФ ----
+domain:coursera.org
+domain:udemy.com
+domain:miro.com
+domain:trello.com              # частично; идёт через atlassian, дублируем на всякий
+domain:slack.com
+domain:zoom.us

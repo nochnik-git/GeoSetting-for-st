@@ -1,0 +1,14 @@
+# Артефакты сборки (собираются в CI и живут в ветке `release`)
+/output/
+/release/
+geosite.dat
+geoip.dat
+*.dat
+*.srs
+*.mrs
+
+# Служебное
+community/
+__pycache__/
+*.pyc
+.DS_Store
